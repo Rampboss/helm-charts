@@ -26,7 +26,7 @@ controller:
 # Enable the ingress to expose Homepage to the network.
 ingress:
   main:
-    enabled: false
+    enabled: true
     # labels:
     #   # This label will enable discover of this deployment in Homepage
     #   gethomepage.dev/enabled: "true"
@@ -36,15 +36,16 @@ ingress:
     #   gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."
     #   gethomepage.dev/group: "A New Group"
     #   gethomepage.dev/icon: "homepage.png"
-    # ingressClassName: "nginx"
-    # hosts:
-    #   - host: &host "homepage.local"
-    #     paths:
-    #       - path: /
-    #         pathType: Prefix
-    # tls:
-    #   - hosts:
-    #       - *host
+    #ingressClassName: "nginx"
+    hosts:
+      - host: "rampcher.ramplab.local"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - *host
+        secretName: tls-rancher-ingress
 
 # All the config files for Homepage can be specified under their relevant config block.
 config:
@@ -73,29 +74,29 @@ config:
   widgets:
     - resources:
         # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
-        backend: resources
+        backend: kubernetes
         expanded: true
         cpu: true
         memory: true
     - search:
         provider: duckduckgo
         target: _blank
-    ## Uncomment to enable Kubernetes integration
-    # - kubernetes:
-    #     cluster:
-    #       show: true
-    #       cpu: true
-    #       memory: true
-    #       showLabel: true
-    #       label: "cluster"
-    #     nodes:
-    #       show: true
-    #       cpu: true
-    #       memory: true
-    #       showLabel: true
+    # Uncomment to enable Kubernetes integration
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
   kubernetes:
     # change mode to 'cluster' to use RBAC service account
-    mode: disable
+    mode: cluster
   docker:
   settings:
 
@@ -105,10 +106,10 @@ persistence:
     type: emptyDir
     mountPath: /app/config/logs
 
-# resources:
-#   requests:
-#     memory: 10Mi
-#     cpu: 10m
-#   limits:
-#     memory: 200Mi
-#     cpu: 500m
+resources:
+  requests:
+    memory: 10Mi
+    cpu: 10m
+  limits:
+    memory: 200Mi
+    cpu: 500m
