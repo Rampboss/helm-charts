@@ -2,16 +2,16 @@ image:
   repository: ghcr.io/jameswynn/external-dns-adguard
   # tag: v1.0.0
 
-enableRbac: true
+enableRbac: false
 
 serviceAccount:
   # Specify a different service account name
   name: external-dns-adguard
-  create: true
+  create: false
 
 env:
   - name: MODE
-    value: PROD
+    value: DEV
   - name: DATABASE_FILE
     value: /data/rules.db
   # Change these values, or even better, load them from a secret as indicated below
@@ -24,9 +24,9 @@ env:
 
 # It is recommended to place the ADGUARD_URL, ADGUARD_USERNAME, and ADGUARD_PASSWORD
 # variables in a secret and reference them like this:
-# envFrom:
-#   - secretRef:
-#       name: external-dns-adguard
+envFrom:
+  - secretRef:
+      name: external-dns-adguard
 
 persistence:
   data:
