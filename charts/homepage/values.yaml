@@ -22,6 +22,11 @@ controller:
   rollingUpdate:
     maxSurge: 25%
     maxUnavailable: 25%
+    
+envFrom:
+  - secretRef:
+      name: homepage-secret
+
 
 # Enable the ingress to expose Homepage to the network.
 ingress:
