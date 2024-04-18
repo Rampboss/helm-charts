@@ -43,7 +43,7 @@ ingress:
     #   gethomepage.dev/icon: "homepage.png"
     #ingressClassName: "nginx"
     hosts:
-      - host: "rampcher.ramplab.local"
+      - host: &host "rampcher.ramplab.local"
         paths:
           - path: /
             pathType: ImplementationSpecific
